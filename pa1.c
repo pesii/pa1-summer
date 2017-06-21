@@ -1,17 +1,25 @@
 #include "pa1.h"
 
 
-FILE* openFile(void) 
+/* 
+ * writeFile() is takes two arguments, (1) output filename, (2) write mode
+ * IO_ERROR (macro for NULL) is returned if a file does not exist
+ * otherwise, returns a file open for read/write
+ */
+FILE * openFile(char *filename, char *mode)
 {
-	FILE *infile;
-	infile = fopen("FitbitData.csv", "r");
-	if (infile == NULL) {
-		printf("Error: File was not found");
-		return 0;
+	FILE * file = NULL;
+	file = fopen(filename, mode); // mode = "w" would suffice for this program
+	
+	if(file == NULL) {
+		printf("Error: File was not found... check the filename\n");
+		return IO_ERROR;
 	}
-
-	return infile;
+	
+	return file;
+	
 }
+
 
 double computeCaloriesBurned(FitbitData arr[])
 {
@@ -24,6 +32,7 @@ double computeCaloriesBurned(FitbitData arr[])
 	return totalCaloriesBurned;
 }
 
+
 double computeDistanceWalked(FitbitData arr[])
 {
 	// Distance in miles
@@ -35,6 +44,7 @@ double computeDistanceWalked(FitbitData arr[])
 
 	return totalDistanceWalked;
 }	
+
 
 unsigned int computeAverageHeartRate(FitbitData arr[])
 {
@@ -49,6 +59,7 @@ unsigned int computeAverageHeartRate(FitbitData arr[])
 	return average;
 }
 
+
 unsigned int computeFloorsWalked(FitbitData arr[])
 {
 	unsigned int totalFloorsWalked = 0;
@@ -59,6 +70,7 @@ unsigned int computeFloorsWalked(FitbitData arr[])
 
 	return totalFloorsWalked;
 }
+
 
 unsigned int computeStepsTaken(FitbitData arr[])
 {
@@ -71,6 +83,7 @@ unsigned int computeStepsTaken(FitbitData arr[])
 	return totalStepsTaken;
 }
 
+
 unsigned int maxSteps(FitbitData arr[])
 {
 	int max = 0, duplicate_max = 0;
@@ -82,9 +95,55 @@ unsigned int maxSteps(FitbitData arr[])
 		// The FitbitData array was populated sequentially by time, so the first max is
 		// the latest in the 24-hour period
 	}
+
+	return max;
+}
+
+/*
+Instruction:
+You must report the longest consecutive range of poor sleep; a range is defined as one or more consecutive minutes where the sleepLevel > 1; the poorest sleep is not based on the length of the range, but the sum of the sleep levels in the range; the max sum of the ranges is considered the poorest sleep (report the starting and ending minutes of range)
+*/
+
+unsigned int poorSleepRange(FitbitData arr[], char *start, char *end) 
+{
+	unsigned int sumRange = 0, max = 0, lastIndex = 0;
+	unsigned int firstRange = 0, lastRange = 0;
+	
+	for(int i=0; i<ARRAY_SIZE; i++){
+		if(arr[i].sleepLevel > SLEEP_LEVEL) {
+			// only true when the data is not consecutive
+			if ( (lastIndex+1) != i ) {
+				//printf("%d  %d\n", sumRange, max);
+				sumRange = 0;
+				firstRange = i;
+			}
+			
+			sumRange += arr[i].sleepLevel;
+			//printf("%d: %d\n", i, arr[i].sleepLevel);
+			
+			if (sumRange > max){
+				max = sumRange;
+				lastRange = i;
+			}
+			
+			// lastIndex checks if the sleepLevel are consecutive
+			lastIndex = i;
+		}
+	}
+	
+	// lastRange is only less than firstRange if the first and last Range is the same
+	if (lastRange < firstRange) {
+		firstRange = lastRange;
+	}
+	
+	// Sets the timestamp of poor sleep level
+	strcpy(start, arr[firstRange].minute);
+	strcpy(end, arr[lastRange].minute);
 	
 	return max;
 }
+
+
 
 void parseString(char *str, FitbitData data[1440])
 {

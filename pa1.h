@@ -1,14 +1,16 @@
 #ifndef ASSIGNMENT1
 #define ASSIGNMENT1
 
-#define ARRAY_SIZE 1440
+#define ARRAY_SIZE 1441
+#define SLEEP_LEVEL 1
+#define IO_ERROR NULL
 
 #include <stdio.h> // printf()
 #include <string.h> // strtok()
 #include <stdlib.h>
 
 /* Function prototypes */
-FILE* openFile();
+FILE * openFile();
 void parseString();
 double computeCaloriesBurned();
 double computeDistanceWalked();
@@ -16,6 +18,8 @@ unsigned int computeAverageHeartRate();
 unsigned int computeFloorsWalked();
 unsigned int computeStepsTaken();
 unsigned int maxSteps();
+unsigned int poorSleepRange();
+
 
 /* Types */
 typedef enum sleep
