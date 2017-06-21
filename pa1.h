@@ -1,6 +1,8 @@
 #ifndef ASSIGNMENT1
 #define ASSIGNMENT1
 
+#define ARRAY_SIZE 1440
+
 #include <stdio.h> // printf()
 #include <string.h> // strtok()
 #include <stdlib.h>
@@ -8,8 +10,12 @@
 /* Function prototypes */
 FILE* openFile();
 void parseString();
-
-
+double computeCaloriesBurned();
+double computeDistanceWalked();
+unsigned int computeAverageHeartRate();
+unsigned int computeFloorsWalked();
+unsigned int computeStepsTaken();
+unsigned int maxSteps();
 
 /* Types */
 typedef enum sleep

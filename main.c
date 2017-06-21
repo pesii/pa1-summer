@@ -30,7 +30,7 @@ int main(void)
 		token = strtok(NULL, ",");
 	      	if (token != NULL) {
 			records[i].distance = atof(token);
-		}	
+		}
 
 		// Load floors
 		token = strtok(NULL, ",");
@@ -41,7 +41,8 @@ int main(void)
 		token = strtok(NULL, ",");
 		if (token != NULL) {
 			records[i].heartRate = atoi(token);
-		}	
+			//printf("%s\n", token);
+		}
 
 		// Load steps
 		token = strtok(NULL, ",");
@@ -51,11 +52,12 @@ int main(void)
 
 		i++;
 	}	
-
-	/*	
+	//printf("Minutes: %d\n", records[1440].heartRate);
+	
+	/*
 	for(int j=0; j<1441; j++) {
-		printf("Minutes: %f\n", records[j].calories); 
-	}
-	*/	
+		printf("Minutes: %d\n", records[j].heartRate); 
+	}*/
+	maxSteps(records);
 	
 }
