@@ -10,6 +10,7 @@ I'll do house cleaning after I'm done with all the PAs, but a functional pa1.c t
 <br>
 <br>
 <b>Original Prompt</b>:
+
 ```
 In this assignment, you must define a C struct to store each of the Fitbit data fields as follows:
  
